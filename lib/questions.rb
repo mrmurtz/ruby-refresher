@@ -41,12 +41,7 @@ end
 # [['Bob', 'Clive'], ['Bob', 'Dave'], ['Clive', 'Dave']]
 # make sure you don't have the same pairing twice,
 def every_possible_pairing_of_students(array)
-  pairs = []
-  array.each do |person|
-    puts person
-    pair = Array.new(pairs.push(person))
-
-  end
+  array.combination(2).to_a
 end
 
 # discard the first 3 elements of an array,
@@ -92,7 +87,9 @@ end
 # even numbers come first
 # so [1, 2, 3, 4, 5, 6] becomes [[2, 4, 6], [1, 3, 5]]
 def separate_array_into_even_and_odd_numbers(array)
-
+  odd = array.select {|n| n.odd?}
+  even = array.select {|n| n.even?}
+  [].push(even).push(odd)
 end
 
 # count the numbers of elements in an element which are palindromes
@@ -146,7 +143,7 @@ end
 def average_of_array(array)
   sum = 0
   array.each {|x| sum += x}
-  p (sum/array.length.to_f).ceil
+  (sum/array.length.to_f).ceil
 end
 
 # get all the elements in an array, up until the first element
@@ -155,15 +152,14 @@ end
 # becomes [1, 3, 5, 4, 1, 2]
 def get_elements_until_greater_than_five(array)
   a = array.index {|a| a > 5}
-  p array
-  p a
+  array.take(a)
 end
 
 # turn an array (with an even number of elements) into a hash, by
 # pairing up elements. e.g. ['a', 'b', 'c', 'd'] becomes
 # {'a' => 'b', 'c' => 'd'}
 def convert_array_to_a_hash(array)
-
+  Hash[*array.flatten(1)]
 end
 
 # get all the letters used in an array of words and return
@@ -171,43 +167,53 @@ end
 # . e.g. the array ['cat', 'dog', 'fish'] becomes
 # ['a', 'c', 'd', 'f', 'g', 'h', 'i', 'o', 's', 't']
 def get_all_letters_in_array_of_words(array)
+  array.join.split('').sort
 end
 
 # swap the keys and values in a hash. e.g.
 # {'a' => 'b', 'c' => 'd'} becomes
 # {'b' => 'a', 'd' => 'c'}
 def swap_keys_and_values_in_a_hash(hash)
+  hash.invert
 end
 
 # in a hash where the keys and values are all numbers
 # add all the keys and all the values together, e.g.
 # {1 => 1, 2 => 2} becomes 6
 def add_together_keys_and_values(hash)
+  sum = 0
+  hash.flatten.each {|v| sum += v}
+  sum
 end
 
 # take out all the capital letters from a string
 # so 'Hello JohnDoe' becomes 'ello ohnoe'
 def remove_capital_letters_from_string(string)
+  string.gsub(/[A-Z]/,"")
 end
 
 # round up a float up and convert it to an Integer,
 # so 3.214 becomes 4
 def round_up_number(float)
+  float.ceil
 end
 
 # round down a float up and convert it to an Integer,
 # so 9.52 becomes 9
 def round_down_number(float)
+  float.floor
 end
 
 # take a date and format it like dd/mm/yyyy, so Halloween 2013
 # becomes 31/10/2013
 def format_date_nicely(date)
+  date.strftime('%d/%m/%Y')
 end
 
 # get the domain name *without* the .com part, from an email address
 # so alex@makersacademy.com becomes makersacademy
 def get_domain_name_from_email_address(email)
+  email.gsub(/.+@([^.]+).+/, '\1')
 end
 
 # capitalize the first letter in each word of a string,
@@ -216,30 +222,44 @@ end
 # 'the lion the witch and the wardrobe' becomes
 # 'The Lion the Witch and the Wardrobe'
 def titleize_a_string(string)
+  a = ['a', 'and', 'the']
+  string.capitalize.split(' ').each do |word|
+    if !a.include? word
+      word.capitalize!
+    end
+  end.join(' ')
 end
 
 # return true if a string contains any special characters
 # where 'special character' means anything apart from the letters
 # a-z (uppercase and lower) or numbers
 def check_a_string_for_special_characters(string)
+
 end
 
 # get the upper limit of a range. e.g. for the range 1..20, you
 # should return 20
 def get_upper_limit_of(range)
+  range.last
 end
 
 # should return true for a 3 dot range like 1...20, false for a
 # normal 2 dot range
 def is_a_3_dot_range?(range)
+  range.size != range.last
 end
 
 # get the square root of a number
 def square_root_of(number)
+  number**(0.5)
 end
 
 # count the number of words in a file
 def word_count_a_file(file_path)
+  file = File.open(file_path, mode='r')
+  total = 0
+  file.each_line {|line| total += line.split.size}
+  total
 end
 
 # --- tougher ones ---
